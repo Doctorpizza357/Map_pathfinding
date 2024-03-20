@@ -61,7 +61,7 @@ def plot_graph():
     return fig, ax
 frames_folder = "frames"
 
-def dijkstra(orig, dest):
+def dijkstra(orig, dest, start_frame=0):
     fig, ax = plot_graph()
     def animate():
         for edge in G.edges:
@@ -93,18 +93,29 @@ def dijkstra(orig, dest):
                     for edge2 in G.out_edges(neighbor):
                         style_active_edge((edge2[0], edge2[1], 0))
             step += 1
-            plot_graph()
-            filename = os.path.join(frames_folder, f'frame_{step:03d}.png')
-            plt.savefig(filename, dpi=100)
-            plt.close()
+            if step >= start_frame:
+                plot_graph()
+                filename = os.path.join(frames_folder, f'frame_{step:03d}.png')
+                plt.savefig(filename, dpi=100)
+                plt.close()
 
     animate()
 
 if not os.path.exists(frames_folder):
     os.makedirs(frames_folder)
 
-start = random.choice(list(G.nodes))
-end = random.choice(list(G.nodes))
-print("Start = " + str(start))
-print("End = " + str(end))
-dijkstra(start, end)
+
+choice = input("1: Random start and end points\n2: Custom start and end points\n> ")
+if (choice == '1'):
+    start = random.choice(list(G.nodes))
+    end = random.choice(list(G.nodes))
+    print("Start = " + str(start))
+    print("End = " + str(end))
+    dijkstra(start, end, 0)
+if (choice == '2'):
+    start = input("Start Point: ")
+    end = input("End Point: ")
+    print("Start = " + str(start))
+    print("End = " + str(end))
+    restartFrame = input("Input frame to start animation from: ")
+    dijkstra(int(start), int(end), int(restartFrame))
