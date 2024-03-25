@@ -166,10 +166,34 @@ def reconstruct_path(orig, dest, plot=False, algorithm=None):
         plot_graph()
 
 
+choice = input("1: Random start and end points\n2: Custom start and end points\n> ")
+algorithm_choice = input("Choose algorithm (1: Dijkstra, 2: A*): ")
 
-start = random.choice(list(G.nodes))
+if algorithm_choice == '1':
+    algorithm = dijkstra
+elif algorithm_choice == '2':
+    algorithm = a_star
+else:
+    print("Invalid choice")
+    exit()
+
+if choice == '1':
+    start = random.choice(list(G.nodes))
+    end = random.choice(list(G.nodes))
+    print("Start = " + str(start))
+    print("End = " + str(end))
+    algorithm(start, end, plot = True)
+elif choice == '2':
+    start = input("Start Point: ")
+    end = input("End Point: ")
+    print("Start = " + str(start))
+    print("End = " + str(end)) 
+    algorithm(int(start), int(end), plot = True)
+
+    
+""" start = random.choice(list(G.nodes))
 end = random.choice(list(G.nodes))
 dijkstra(start, end, plot=True)
 reconstruct_path(start, end, plot=True)
 a_star(start, end, plot=True)
-reconstruct_path(start, end, plot=True)
+reconstruct_path(start, end, plot=True) """
