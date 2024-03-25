@@ -183,13 +183,14 @@ if choice == '1':
     print("Start = " + str(start))
     print("End = " + str(end))
     algorithm(start, end, plot = True)
+    reconstruct_path(int(start), int(end), plot = True, algorithm = True)
 elif choice == '2':
     start = input("Start Point: ")
     end = input("End Point: ")
     print("Start = " + str(start))
     print("End = " + str(end)) 
     algorithm(int(start), int(end), plot = True)
-
+    reconstruct_path(int(start), int(end), plot = True, algorithm = True)
     
 """ start = random.choice(list(G.nodes))
 end = random.choice(list(G.nodes))
