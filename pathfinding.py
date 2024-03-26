@@ -142,8 +142,6 @@ def a_star(orig, dest, plot=False):
                     style_active_edge((edge2[0], edge2[1], 0))
         step += 1
 
-
-
 def reconstruct_path(orig, dest, plot=False, algorithm=None):
     for edge in G.edges:
         style_unvisited_edge(edge)
