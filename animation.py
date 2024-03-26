@@ -1,3 +1,4 @@
+import math
 import osmnx as ox
 import random
 import heapq
@@ -5,6 +6,7 @@ import re
 import matplotlib.pyplot as plt
 from matplotlib.animation import FuncAnimation
 import os
+import networkx
 
 place_name = "Capital Federal, Buenos Aires"
 G = ox.graph_from_place(place_name, network_type="drive")
@@ -101,21 +103,35 @@ def dijkstra(orig, dest, start_frame=0):
 
     animate()
 
+
+
 if not os.path.exists(frames_folder):
     os.makedirs(frames_folder)
 
 
 choice = input("1: Random start and end points\n2: Custom start and end points\n> ")
-if (choice == '1'):
+algorithm_choice = input("Choose algorithm (1: Dijkstra, 2: A*): ")
+
+if algorithm_choice == '1':
+    algorithm = dijkstra
+elif algorithm_choice == '2':
+    #algorithm = a_star
+    print("Not ready to use yet")
+else:
+    print("Invalid choice")
+    exit()
+
+if choice == '1':
     start = random.choice(list(G.nodes))
     end = random.choice(list(G.nodes))
     print("Start = " + str(start))
     print("End = " + str(end))
-    dijkstra(start, end, 0)
-if (choice == '2'):
+    restartFrame = input("Input frame to start animation from: ")
+    algorithm(start, end, int(restartFrame))
+elif choice == '2':
     start = input("Start Point: ")
     end = input("End Point: ")
     print("Start = " + str(start))
-    print("End = " + str(end))
+    print("End = " + str(end)) 
     restartFrame = input("Input frame to start animation from: ")
-    dijkstra(int(start), int(end), int(restartFrame))
+    algorithm(int(start), int(end), int(restartFrame))
