@@ -191,10 +191,3 @@ elif choice == '2':
     print("End = " + str(end)) 
     algorithm(int(start), int(end), plot = True)
     reconstruct_path(int(start), int(end), plot = True, algorithm = True)
-    
-""" start = random.choice(list(G.nodes))
-end = random.choice(list(G.nodes))
-dijkstra(start, end, plot=True)
-reconstruct_path(start, end, plot=True)
-a_star(start, end, plot=True)
-reconstruct_path(start, end, plot=True) """
