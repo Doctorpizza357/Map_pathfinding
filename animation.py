@@ -100,10 +100,54 @@ def dijkstra(orig, dest, start_frame=0):
                 filename = os.path.join(frames_folder, f'frame_{step:03d}.png')
                 plt.savefig(filename, dpi=100)
                 plt.close()
-
+        return step
     animate()
 
-
+def a_star(orig, dest, start_frame=0):
+    frames_folder = "frames"
+    step = 0
+    
+    def distance(node1, node2):
+        x1, y1 = G.nodes[node1]["x"], G.nodes[node1]["y"]
+        x2, y2 = G.nodes[node2]["x"], G.nodes[node2]["y"]
+        return ((x2 - x1)**2 + (y2 - y1)**2)**0.5
+    
+    for node in G.nodes:
+        G.nodes[node]["previous"] = None
+        G.nodes[node]["size"] = 0
+        G.nodes[node]["g_score"] = float("inf")
+        G.nodes[node]["f_score"] = float("inf")
+    
+    for edge in G.edges:
+        style_unvisited_edge(edge)
+    
+    G.nodes[orig]["size"] = 50
+    G.nodes[dest]["size"] = 50
+    G.nodes[orig]["g_score"] = 0
+    G.nodes[orig]["f_score"] = distance(orig, dest)
+    pq = [(G.nodes[orig]["f_score"], orig)]
+    
+    while pq:
+        if step >= start_frame:
+            plot_graph()
+            filename = os.path.join(frames_folder, f'frame_{step:03d}.png')
+            plt.savefig(filename, dpi=100)
+            plt.close()
+        _, node = heapq.heappop(pq)
+        if node == dest:
+            break
+        for edge in G.out_edges(node):
+            style_visited_edge((edge[0], edge[1], 0))
+            neighbor = edge[1]
+            tentative_g_score = G.nodes[node]["g_score"] + distance(node, neighbor)
+            if tentative_g_score < G.nodes[neighbor]["g_score"]:
+                G.nodes[neighbor]["previous"] = node
+                G.nodes[neighbor]["g_score"] = tentative_g_score
+                G.nodes[neighbor]["f_score"] = tentative_g_score + distance(neighbor, dest)
+                heapq.heappush(pq, (G.nodes[neighbor]["f_score"], neighbor))
+                for edge2 in G.out_edges(neighbor):
+                    style_active_edge((edge2[0], edge2[1], 0))
+        step += 1
 
 if not os.path.exists(frames_folder):
     os.makedirs(frames_folder)
@@ -115,8 +159,7 @@ algorithm_choice = input("Choose algorithm (1: Dijkstra, 2: A*): ")
 if algorithm_choice == '1':
     algorithm = dijkstra
 elif algorithm_choice == '2':
-    #algorithm = a_star
-    print("Not ready to use yet")
+    algorithm = a_star
 else:
     print("Invalid choice")
     exit()
@@ -135,3 +178,6 @@ elif choice == '2':
     print("End = " + str(end)) 
     restartFrame = input("Input frame to start animation from: ")
     algorithm(int(start), int(end), int(restartFrame))
+else:
+    print("Invalid choice")
+    exit()
