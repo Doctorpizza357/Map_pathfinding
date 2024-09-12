@@ -57,7 +57,7 @@ def plot_graph():
         edge_alpha = [ G.edges[edge].get("alpha", 0.2) for edge in G.edges ],
         edge_linewidth = [ G.edges[edge].get("linewidth", 0.5) for edge in G.edges ],
         node_color = "white",
-        bgcolor = "#18080e",
+        bgcolor = "#000000",
         show=False
     )
     return fig, ax
