@@ -20,8 +20,8 @@ This project visualizes graph traversal algorithms (Dijkstra and A*) by generati
 
 1. Clone the repository:
     ```sh
-    git clone <repository-url>
-    cd <repository-directory>
+    git clone <https://github.com/Doctorpizza357/Map_pathfinding>
+    cd <Map_pathfinding>
     ```
 
 2. Install the required packages:
